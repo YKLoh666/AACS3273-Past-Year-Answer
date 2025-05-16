@@ -172,25 +172,25 @@ c)
 
 i) $\neg C \land \neg D$
 
-ii) $ E \lor \neg E $
+ii) $E \lor \neg E$
 
-iii) $ B \implies A $
+iii) $B \implies A$
 
-iv) $ \neg C \implies D $
+iv) $\neg C \implies D$
 
-v) $ \neg (\neg C \implies \neg (A \lor D)) $
+v) $\neg (\neg C \implies \neg (A \lor D))$
 
-vi) $ A \lor D $
+vi) $A \lor D$
 
-> Looks like exclusive or, but XOR is not covered in the syllabus. If it is really that tricky, it might ask for this answer: $ (A \lor D) \land \neg (A \land D) $.
+> Looks like exclusive or, but XOR is not covered in the syllabus. If it is really that tricky, it might ask for this answer: $(A \lor D) \land \neg (A \land D)$.
 
-vii) $ (\neg B \land E) \implies (\neg C \land A \land \neg D) $
+vii) $(\neg B \land E) \implies (\neg C \land A \land \neg D)$
 
-viii) $ A \iff (B \land C) $
+viii) $A \iff (B \land C)$
 
-ix) $ \neg C \implies (\neg A \land D) $
+ix) $\neg C \implies (\neg A \land D)$
 
-x) $ \neg ((\neg B \land \neg E) \implies (\neg C \land \neg A \land \neg D)) $
+x) $\neg ((\neg B \land \neg E) \implies (\neg C \land \neg A \land \neg D))$
 
 d) Truth table is used to shows the truth value of a compound proposition based on the simpler propositions that make it up.
 
