@@ -1,4 +1,4 @@
-# AACS2204 OCT 2024 Answers
+# AACS3273 OCT 2024 Answers
 
 [Link to the paper](https://eprints.tarc.edu.my/30264/1/QP-AACS3273.pdf)
 
@@ -45,8 +45,10 @@ ii)
 | Algorithm | Sequence of nodes expanded |
 | --------- | -------------------------- |
 | DFS       | A, B, D, F, I, J           |
-| BFS       | A, B, C, G, D, E, J        |
+| BFS       | A, B, C, G, D, E           |
 | A\*       | A, C, E, B, D, G, H, J1    |
+
+> J not included in BFS as it is early goal test
 
 iii)
 
@@ -182,7 +184,7 @@ v) $\neg (\neg C \implies \neg (A \lor D))$
 
 vi) $A \lor D$
 
-> Looks like exclusive or, but XOR is not covered in the syllabus. If it is really that tricky, it might ask for this answer: $(A \lor D) \land \neg (A \land D)$.
+> Although looks like an XOR, but lecture notes used either... or ... to describe OR, so we just follow the notes.
 
 vii) $(\neg B \land E) \implies (\neg C \land A \land \neg D)$
 
@@ -196,31 +198,31 @@ d) Truth table is used to shows the truth value of a compound proposition based 
 
 i) $\neg C \land \neg D$
 
-| C   | D   | $\neg C$ | $\neg D$ | $\neg C \land \neg D$ |
-| --- | --- | -------- | -------- | --------------------- |
-| T   | T   | F        | F        | F                     |
-| T   | F   | F        | T        | F                     |
-| F   | T   | T        | F        | F                     |
-| F   | F   | T        | T        | T                     |
+| C     | D     | $\neg C$ | $\neg D$ | $\neg C \land \neg D$ |
+| ----- | ----- | -------- | -------- | --------------------- |
+| True  | True  | False    | False    | False                 |
+| True  | False | False    | True     | False                 |
+| False | True  | True     | False    | False                 |
+| False | False | True     | True     | True                  |
 
 Not a tautology
 
 ii) $E \lor \neg E$
 
-| E   | $\neg E$ | $E \lor \neg E$ |
-| --- | -------- | --------------- |
-| T   | F        | T               |
-| F   | T        | T               |
+| E     | $\neg E$ | $E \lor \neg E$ |
+| ----- | -------- | --------------- |
+| True  | False    | True            |
+| False | True     | True            |
 
 Tautology
 
 iii) $B \implies A$
 
-| B   | A   | $B \implies A$ |
-| --- | --- | -------------- |
-| T   | T   | T              |
-| T   | F   | F              |
-| F   | T   | T              |
-| F   | F   | T              |
+| B     | A     | $B \implies A$ |
+| ----- | ----- | -------------- |
+| True  | True  | True           |
+| True  | False | False          |
+| False | True  | True           |
+| False | False | True           |
 
 Not a tautology
