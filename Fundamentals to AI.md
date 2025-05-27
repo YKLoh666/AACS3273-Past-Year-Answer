@@ -1,53 +1,59 @@
 ## 📚 Table of Contents
 
-### Chapter 1: Introduction to AI
-
-- **1.1 Approaches to AI**
-  - [Acting Humanly](#acting-humanly)
-  - [Thinking Humanly](#thinking-humanly)
-  - [Thinking Rationally](#thinking-rationally)
-  - [Acting Rationally](#acting-rationally)
-- **1.2 AI Agents**
+- [Chapter 1: Introduction to AI](#chapter-1-introduction-to-ai)
+  - [Approaches of AI](#approaches-of-ai)
+    - [Acting Humanly](#acting-humanly)
+    - [Thinking Humanly](#thinking-humanly)
+    - [Thinking Rationally](#thinking-rationally)
+    - [Acting Rationally](#acting-rationally)
+    - [Comparison](#comparison)
   - [Agents](#agents)
   - [Task Environment](#task-environment)
-
-### Chapter 2: Solving Problems by Searching
-
-- **2.1 Fundamentals of Search**
+  - [Structure of Agents](#structure-of-agents)
+- [Chapter 2: Solving Problems by Searching](#chapter-2-solving-problems-by-searching)
   - [Problem Solving Agents](#problem-solving-agents)
   - [Problem Solving Phases](#problem-solving-phases)
   - [Problem Formulation](#problem-formulation)
   - [Abstraction](#abstraction)
   - [Search Tree](#search-tree)
   - [Nodes](#nodes)
-  - [Paths](#paths)
   - [Frontier](#frontier)
-- **2.2 Measuring Search Effectiveness**
+  - [Paths](#paths)
   - [Performance Measures](#performance-measures)
   - [Measurement of Complexity](#measurement-of-complexity)
-- **2.3 Uninformed Search Strategies**
+  - [Uninformed Search Strategies](#uninformed-search-strategies)
   - [Breadth-First Search (BFS)](#breadth-first-search-bfs)
-  - [Best-First Search](#best-first-search)
   - [Depth-First Search (DFS)](#depth-first-search-dfs)
+  - [Best-First Search](#best-first-search)
+  - [Backtracking Search](#backtracking-search)
   - [Depth-Limited Search](#depth-limited-search)
   - [Iterative Deepening Search (IDS)](#iterative-deepening-search-ids)
   - [Bidirectional Search](#bidirectional-search)
-  - [Backtracking Search](#backtracking-search)
-- **2.4 Informed Search Strategies**
+  - [Informed Search Strategies](#informed-search-strategies)
   - [Greedy Best-First Search](#greedy-best-first-search)
   - [A\* Search](#a-search)
   - [Optimality](#optimality)
-
-### Chapter 3: Local Search and Optimization Problems
-
-- **3.1 Local Search Basics**
+- [Chapter 3: Local Search and Optimization Problems](#chapter-3-local-search-and-optimization-problems)
   - [Local Search Strategies](#local-search-strategies)
   - [State Space Landscape](#state-space-landscape)
-- **3.2 Optimization Techniques**
   - [Hill Climbing Search](#hill-climbing-search)
   - [Simulated Annealing](#simulated-annealing)
   - [Local Beam Search](#local-beam-search)
   - [Evolutionary Algorithms](#evolutionary-algorithms)
+- [Chapter 4: Adversarial Search](#chapter-4-adversarial-search)
+  - [Problem Formulation](#problem-formulation-1)
+  - [Game Tree](#game-tree)
+  - [Algorithm](#algorithm)
+- [Chapter 5: Constraint Satisfaction Problems](#chapter-5-constraint-satisfaction-problems)
+  - [Problem Formulation](#problem-formulation-2)
+  - [Constraint](#constraint)
+  - [Local Consistency](#local-consistency)
+- [Chapter 6: Logical Agents](#chapter-6-logical-agents)
+  - [Problem Solving Agent Problem Formulation](#problem-solving-agent-problem-formulation)
+  - [Knowledge-Based Agent](#knowledge-based-agent)
+  - [Knowledge Base (KB)](#knowledge-base-kb)
+  - [Propositional Logic](#propositional-logic)
+  - [Logical Inference](#logical-inference)
 
 # Chapter 1: Introduction to AI
 
@@ -157,9 +163,9 @@
   - Definition of rational agent:
     - For each possible (4) **percept sequence**, the rational agent should select an (3) **action** that (1) **maximizes performance measure**, based on **evidence** provided by the (4) **percept sequence** and the (2) **prior knowledge about the environment**.
   - Rational Agent should be able to:
-    1. **Gather information** - perceive the environment before acting.
-    2. **Learning** - compensate for the incomplete or incorrect prior knowledge about the environment. Increase adaptability.
-    3. **Autonomy** - act depends on its own percepts and learning experience, not fully relying on the prior knowledge provided by the designer.
+    1. **Learning** - compensate for the incomplete or incorrect prior knowledge about the environment. Increase adaptability.
+    2. **Autonomy** - act depends on its own percepts and learning experience, not fully relying on the prior knowledge provided by the designer.
+    3. **Information Gathering** - perceive the environment before acting.
 
 - **Rational Agent vs. Omniscient Agent**
 
@@ -337,25 +343,25 @@
 
 ## Problem Solving Phases
 
-1. Goal Formulation
+1. **Goal Formulation**
 
 - Performance measure
 - Limit objectives and actions to achieve the goal.
 
-2. Problem Formulation
+2. **Problem Formulation**
 
 - Abstract Model of relevant parts of the environment.
 - Consists of:
   - A state
   - An action necessary to reach the goal
 
-3. Solution Searching
+3. **Solution Searching**
 
 - simulate the sequence of actions to reach the goal.
 - the sequence called **solution**.
 - the solution which has the lowest cost is the **optimal solution**.
 
-4. Solution Execution
+4. **Solution Execution**
 
 - Agent executes all the actions in the solution.
 
@@ -628,27 +634,39 @@
 
 ## Hill Climbing Search
 
-- Start from the initial state
-- Move to immediate neighbor with the highest objective function value (or lowest cost function value).
-- Terminate when no neighbor has a higher objective function value (or lower cost function value).
-- Pros
-  - Only need to keep track of the current state and its neighbors.
-  - Acceptable performance in practice.
-  - Low memory requirement and computation time.
-- Cons
-  - Suboptimal solution.
-  - Stuck in local maximum/minimum.
-  - Stuck in plateau.
-  - Stuck in ridge.
-- Solutions:
-  - Allow a limited number of sideway moves to escape plateau.
-  - Backtrack to the previous state and try a different neighbor.
-  - Stochastic hill climbing - randomly select a neighbor to move to, which each uphill move's probability vary by steepness.
-  - First-choice hill climbing - explore the neighbors randomly until a neighbor with a higher objective function value than the current state is found. (The first better neighbor)
-  - Random-restart hill climbing - restart the search from a random state if the current state is stuck in local maximum/minimum.
-- Completeness
-  - No, can get stuck in local maximum/minimum.
-  - If using complete variant, can be extremely inefficient.
+Hill climbing is a local search algorithm that iteratively moves towards a better solution by evaluating neighboring states.
+
+### Steps
+
+1. Start from the initial state.
+2. Move to the immediate neighbor with the highest objective function value (or lowest cost function value).
+3. Terminate when no neighbor has a higher objective function value (or lower cost function value).
+
+### Advantages
+
+- Requires tracking only the current state and its neighbors.
+- Performs acceptably well in practice.
+- Low memory and computational requirements.
+
+### Disadvantages
+
+- May result in suboptimal solutions due to:
+  - **Local Maximum/Minimum**: Stuck at a peak/trough that is not the global optimum.
+  - **Plateau**: A flat region with no improvement.
+  - **Ridge**: A narrow path of improvement that is hard to navigate.
+
+### Solutions to Overcome Limitations
+
+- **Sideway Moves**: Allow a limited number of moves along a plateau to escape it.
+- **Backtracking**: Return to a previous state and explore a different neighbor.
+- **Stochastic Hill Climbing**: Randomly select a neighbor, with uphill moves having probabilities proportional to their steepness.
+- **First-Choice Hill Climbing**: Randomly explore neighbors until a better one is found (the first better neighbor).
+- **Random-Restart Hill Climbing**: Restart the search from a random state if stuck in a local maximum/minimum.
+
+### Completeness
+
+- **Standard Hill Climbing**: Not complete, as it can get stuck in local maxima/minima.
+- **Complete Variants**: Can guarantee completeness but may be highly inefficient.
 
 ## Simulated Annealing
 
@@ -676,7 +694,7 @@
 - Steps: (Using 8-Queen problem as an example)
   1. **Initialization** - Generate a random population of candidate solutions (individuals).
      - Each individual represents a possible solution to the problem.
-  2. **Evaluation** - Evaluate the fitness of each individual in the population.
+  2. **Fitness Function** - Evaluate the fitness of each individual in the population.
      - Fitness function - a function that evaluates the quality of a solution.
      - Example: In the 8-Queen problem, the fitness function can be the number of pairs of queens that are not attacking each other. The best solution has a fitness of 8C2 = 28.
      - Normalise the score to probability.
@@ -893,7 +911,7 @@
 - **Truth Table** - A table that shows the truth value of a sentence for all possible models.
   - One row represents one model.
 - **Entailment** - One sentence logically follows from another sentence.
-  - $\alpha |= \beta \iff M(\alpha) \subseteq M(\beta)$
+  - $\alpha \models \beta \iff M(\alpha) \subseteq M(\beta)$
   - $\alpha$ entails $\beta$ if every model of $\alpha$ is also a model of $\beta$.
   - Or in layman term, if $\alpha$ is true, then $\beta$ must also be true.
 
@@ -919,5 +937,5 @@
   - The model of $\alpha$ is $\{(p, q), (p, \neg q), (\neg p, q)\}$
   - Since $M(KB) \subseteq M(\alpha)$, we show that $KB \vdash_i \alpha$
 
-- **Logical Reasoning** - the process of constructing a new physical configuration from the old ones.
+- **Theorem Proving** - the process of constructing a new physical configuration from the old ones.
 - **Grounding** - connection between the logical representation and the physical world.
