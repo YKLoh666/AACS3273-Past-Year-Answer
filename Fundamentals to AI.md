@@ -700,3 +700,224 @@
   - Has uphill tendency.
   - Random exploration of the search space.
   - Exchange of information among parallel search processes.
+
+# Chapter 4: Adversarial Search
+
+- Multiagent
+- Agents in conflict with each other.
+- **Moves** = Actions
+- **Positions** = States
+- 5 **Characteristics** of Adversarial Search:
+  1. **Turn-Taking** - Players take turns to make moves.
+  2. **Two-Player** - There are two players in the game, one is the maximizer and the other is the minimizer.
+  3. **Zero-Sum** - One player's gain is another player's loss.
+  4. **Perfect Information** - Both players have complete knowledge of the game state.
+  5. **Deterministic** - The game state is completely determined by the current state and the moves made by the players.
+
+## Problem Formulation
+
+- **Initial State (S<sub>0</sub>)** - the initial state of the game.
+- **ACTIONS(s)** - Set of legal moves in state **_s_**
+- **RESULT(s, a)** - The transition model defines state resulting from taking action **_a_** in state **_s_**.
+- **TO-MOVE(s)** - The player whose turn it is in state **_s_**.
+- **IS-TERMINAL(s)** - Returns true if state **_s_** is a terminal state, i.e. the game is over.
+- **UTILITY(s, p)** - Utility function that returns the utility value of state **_s_** for player **_p_**.
+  - Eg. In chess, the outcome of win, lose, or draw can be represented as 1, -1, and 0 respectively.
+
+## Game Tree
+
+- A tree that represents the possible moves in the game.
+- **Complete game tree** - a tree that has initial state as the root node and expands all the possible moves until the terminal states are reached.
+- Leaf nodes/Terminal nodes - Terminal states of the game.
+
+## Algorithm
+
+- **Minimax Algorithm** - a recursive algorithm that finds the optimal move for the maximizer player.
+- **Alpha-Beta Pruning** - an optimization technique for the minimax algorithm that reduces the number of nodes that need to be evaluated.
+  - Limitation: The effectiveness of alpha-beta pruning depends on the order in which the nodes are evaluated.
+  - Solution: Use a heuristic function to order the nodes in the search tree.
+
+# Chapter 5: Constraint Satisfaction Problems
+
+- Classic search problems uses atomic representation of the world state.
+- CSP uses factored representation of the world state. Only considered solved when all variables has a value satisfying all constraints.
+- Eliminates large portion of the search space by using constraints to limit the possible values of variables.
+
+## Problem Formulation
+
+- **Variables** - a set of variables that need to be assigned values.
+  - Is a set of variables
+- **Domains** - a set of possible values for each variable.
+  - Each variable has a domain, which is a set of possible values that the variable can take.
+- **Constraints** - a set of constraints that restrict the possible values of the variables.
+  - `<scope, relation>` - a constraint that restricts the possible values of the variables in the scope.
+  - Two types of declaration:
+    - **Enumeration** - a list of possible values for the variables in the scope.
+    - Eg. `<(x1, x2), {(1, 2), (2, 3), (3, 4)}>`
+    - **Abstract** - a statement that describes the relationship between the variables in the scope.
+    - Eg. `<(x1, x2), x1 < x2>`
+- **Solution**
+  - **Consistent** - a solution that satisfies all the constraints.
+  - **Complete** - a solution that assigns a value to all the variables.
+- **Constraint Graph** - a graph that represents the variables and constraints in the CSP.
+  - Nodes represent variables.
+  - Edges represent constraints between variables.
+  - A constraint graph is bipartite, meaning it has two sets of nodes, one for variables and one for constraints.
+
+## Constraint
+
+- **Unary Constraint** - a constraint that restricts the possible values of a single variable.
+  - Eg. `<(x1), x1 > 0>` - a constraint that restricts the possible values of variable `x1` to be greater than 0.
+- **Binary Constraint** - a constraint that restricts the possible values of two variables.
+  - Eg. `<(x1, x2), x1 + x2 = 5>` - a constraint that restricts the possible values of variables `x1` and `x2` to be such that their sum is equal to 5.
+- **Ternary Constraint** - a constraint that restricts the possible values of three variables.
+  - Eg. `<(x1, x2, x3), x1 + x2 + x3 = 10>` - a constraint that restricts the possible values of variables `x1`, `x2`, and `x3` to be such that their sum is equal to 10.
+- **Global Constraint** - a constraint that restricts the possible values of multiple variables.
+  - **Alldiff(x1, x2, ..., xn)** - a constraint that restricts the possible values of variables `x1`, `x2`, ..., `xn` to be all different.
+    - Eg. `<(x1, x2, x3), Alldiff(x1, x2, x3)>` - a constraint that restricts the possible values of variables `x1`, `x2`, and `x3` to be all different.
+    - Can be expanded to binary constraints. (Total of nC2 binary constraints, n being the number of variables)
+    - Eg. `<(x1, x2), x1 != x2>`, `<(x1, x3), x1 != x3>`, `<(x2, x3), x2 != x3>`
+  - **Atmost(v, x1, x2, ..., xn)** - a constraint that restricts the sum of the values of variables `x1`, `x2`, ..., `xn` to be at most `v`.
+    - Eg. `<(x1, x2, x3), Atmost(5, x1, x2, x3)>` - a constraint that restricts the sum of the values of variables `x1`, `x2`, and `x3` to be at most 5.
+    - Can be expanded to `x1 + x2 + ... + xn <= v`
+    - Used in problems like scheduling, where the total number of resources distributed to the variables should not exceed a certain limit.
+    - Eg. only 5 workers can be assigned to 3 tasks, so it can be represented as `<(x1, x2, x3), Atmost(5, x1, x2, x3)>`, where `x1`, `x2`, and `x3` are the number of workers assigned to each task.
+- Absolute Constraint vs Preference Constraint
+
+  | Absolute Constraint                                     | Preference Constraint                                     |
+  | ------------------------------------------------------- | --------------------------------------------------------- |
+  | Must be satisfied                                       | Can be violated                                           |
+  | Violating the constraint results in an invalid solution | Violating the constraint results in a suboptimal solution |
+
+## Local Consistency
+
+- Constraint Propagation - propagating the constraints to reduce the search space.
+- Preprocess the search space before searching for a solution.
+- **Node Consistency**
+  - True if every value in the domain of a variable satisfies all unary constraints on that variable.
+- **Arc Consistency**
+  - True if every value in the domain of a variable satisfies all binary constraints on that variable with respect to the other variable.
+  - **AC-3 algorithm**
+    - A simple algorithm to achieve arc consistency.
+    - Uses a queue to store the arcs that need to be checked for consistency.
+    - If an arc is not consistent, it removes the inconsistent values from the domain of the variable.
+    - Limitation
+      - Sometimes it finds that the problem is unsolvable, but it is actually solvable.
+- **Path Consistency**
+  - You have three variables Xᵢ, Xⱼ and Xₖ, each with its own domain of possible values.
+  - First choose any pair of values (vᵢ, vⱼ) that satisfies the constraint between Xᵢ and Xⱼ.
+  - The pair {Xᵢ, Xⱼ} is path‐consistent via Xₖ if no matter which valid (vᵢ, vⱼ) you picked, you can always find some value vₖ for Xₖ so that:
+    - (Xᵢ=vᵢ, Xₖ=vₖ) satisfies the constraint between Xᵢ and Xₖ, and
+    - (Xₖ=vₖ, Xⱼ=vⱼ) satisfies the constraint between Xₖ and Xⱼ.
+  - Stronger than arc consistency.
+
+# Chapter 6: Logical Agents
+
+| Problem Solving Agent                                                 | Logical Agent                                                  |
+| --------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Have knowledge on the actions and predicts the outcome of the actions | Can form representation of the complex world                   |
+| Limited Sense                                                         | Can derive new representation from the existing representation |
+| Decide action based on the knowledge and the current state            | Decide action based on the reasoning process                   |
+
+## Problem Solving Agent Problem Formulation
+
+- Initial State
+- Action
+- Transition Model
+- Goal Test
+- Path Cost
+
+## Knowledge-Based Agent
+
+- Logic as general class of knowledge representation.
+- Combine and recombine knowledge to derive new knowledge.
+- **Capability**
+  - Accept new tasks with **clearly described goals**.
+  - **Achieve competence quickly** by being told or **learning new knowledge** about the environment.
+  - Adapt to **changing environment** by updating the knowledge base.
+- Central component
+  - **Knowledge Base (KB)** - a set of sentences in a formal language.
+  - **Inference System** - a reasoning mechanism that derives new sentences from the existing sentences in the KB.
+    - Learning: Process of inference system updating the KB by accepting input from the environment.
+    - Action: Process of inference system selecting an action based on the KB and the current state.
+    ```
+    +-------------+     Input       +------------------+   Output
+    | Environment |---------------->| Inference Engine |------------->
+    +-------------+                 +------------------+
+                                        ^        |
+                                        |        |            +----------+
+                                        |        |<-----------| Learning |
+                                        |        |            +----------+
+                                        |        v
+                                     +----------------+
+                                     | Knowledge Base |
+                                     +----------------+
+    ```
+
+## Knowledge Base (KB)
+
+- A set of sentences
+- Sentence: An assertion about the world, expressed in knowledge representation language.
+- Axiom: A sentence that is not derived from other sentences. (The starting point of the KB)
+- Operations
+  - **ASK**
+    - Extract information from the KB.
+    - Query the KB to check if a sentence is true.
+  - **TELL**
+    - Update the KB with new information.
+- **Inference** - the process of deriving new sentences from the existing sentences in the KB.
+  - Must derive sentences that are logically entailed by the KB.
+- **Agent Program Iteration**
+  - **TELL** KB what's perceived
+  - **ASK** KB what to do, reasoning may be done about current world state and outcome of each action.
+  - **TELL** KB what action is selected
+  - Perform the action in the environment
+- Levels of describing Knowledge-Based Agent
+  1. Knowledge Level: Specify what the agent knows and their goals to fix their behavior.
+  2. Logical Level: Derives logic out of the knowledge base according to problem.
+  3. Implementation Level: Knowledge and logic are implemented
+- Approach of building Knowledge-Based Agent
+  1. Declarative Approach: **TELL** the agent what to do, and the agent will figure out how to do it.
+  2. Procedural Approach: Encodes desired behavior directly as program code.
+
+## Propositional Logic
+
+- Sentence must be either true or false.
+- **Model** - used to represent the possible states of the world.
+  - All possible assignments of truth values to the propositions.
+  - Eg. If a sentence has 3 propositions (x, y, z), then there are 2<sup>3</sup> = 8 possible models.
+  - If a sentence $\alpha$ is true in a model $M$
+    - $m$ satisfies $\alpha$
+    - $m$ is a model of $\alpha$
+  - $M(\alpha)$ - the set of models that satisfy $\alpha$.
+- **Truth Table** - A table that shows the truth value of a sentence for all possible models.
+  - One row represents one model.
+- **Entailment** - One sentence logically follows from another sentence.
+  - $\alpha |= \beta \iff M(\alpha) \subseteq M(\beta)$
+  - $\alpha$ entails $\beta$ if every model of $\alpha$ is also a model of $\beta$.
+  - Or in layman term, if $\alpha$ is true, then $\beta$ must also be true.
+
+## Logical Inference
+
+- **Inference Algorithm** – a procedure that derives new sentences from the existing sentences in the KB.
+- **Soundness** – ensures that every sentence inferred by the algorithm is true in all models of the KB (you never derive something false).
+- **Completeness** – ensures that if a sentence is true in all models of the KB, the algorithm can infer it (you can derive all truths).
+- **Model Checking** - Enumerate all models of the KB and check if the sentence is true in all models.
+
+  - Given 2 sentences in KB: $p \land q$ and $p \implies q$.
+  - Check if it entails the sentence $\alpha = p \lor q$.
+  - Generate a truth table
+
+  | $p$ | $q$ | $p \land q$ | $p \implies q$ | $p \lor q$ |
+  | --- | --- | ----------- | -------------- | ---------- |
+  | T   | T   | T           | T              | T          |
+  | T   | F   | F           | F              | T          |
+  | F   | T   | F           | T              | T          |
+  | F   | F   | F           | T              | F          |
+
+  - The model of KB is $\{(p, q)\}$
+  - The model of $\alpha$ is $\{(p, q), (p, \neg q), (\neg p, q)\}$
+  - Since $M(KB) \subseteq M(\alpha)$, we show that $KB \vdash_i \alpha$
+
+- **Logical Reasoning** - the process of constructing a new physical configuration from the old ones.
+- **Grounding** - connection between the logical representation and the physical world.
